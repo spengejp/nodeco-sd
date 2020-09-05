@@ -1,0 +1,8 @@
+{ "rpc": { "listen-addrs": [ "127.0.0.1:8732" ] },
+  "p2p":
+    { "bootstrap-peers": [ "10.9.0.1:9703" ],
+      "listen-addr": "127.0.0.1:9732", "private-mode": true },
+  "network": "carthagenet",
+  "shell":
+    { "chain_validator": { "bootstrap_threshold": 1 },
+      "history_mode": "rolling" } }

@@ -1,0 +1,16 @@
+# The Tezos Daemons service (part of systemd)
+# file: /mnt/sd/.config/systemd/user/tezos-daemons.service
+
+[Unit]
+Description     = Tezos Daemons Service
+Wants           = tezos-node.service
+BindsTo         = tezos-node.service
+After           = tezos-node.service
+
+[Service]
+ExecStart       = /bin/bash -c '${HOME}/.config/systemd/user/tezos-daemons.sh'
+Restart         = on-failure
+Type            = simple
+
+[Install]
+WantedBy        = default.target

@@ -1,0 +1,57 @@
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <h2 class="text-dark" style="font-size: 1.4em;"><%= __('data') %></h2>
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header bg-gradient-primary">
+                <h3 id="title_rights" class="card-title" style="font-size: 1.0em"><strong><%= __('schedule') %></strong></h3>
+            </div>
+            <div class="card-body">
+                <ul class="pagination pagination-sm data_rights_pages">
+                </ul>
+                <div class="data_rights">
+                    <%= __('loading') %>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-gradient-primary">
+                <h3 id="title_history" class="card-title" style="font-size: 1.0em"><strong> <%= __('past_history') %></strong></h3>
+            </div>
+            <div class="card-body" style="overflow: auto;">
+                <div class="data_history">
+                    <%= __('loading') %>
+                </div>
+                <ul class="pagination pagination-sm data_history_pages">
+                </ul>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer bg-gradient-light">
+                <p><button type="submit" class="btn btn-primary"> <%= __('csv_output') %></button></p>
+            </div>
+        </div>
+    </div>
+</div><!-- /.container -->
+
+<div class="content">
+    <div class="container-fluid">
+        <ul class="list-group shadow-sm mb-3 bg-gradient-light">
+            <li class="list-group-item">
+                <%= __('to_get_staking_reward') %>
+                <ul>
+                    <li><strong><%= __('eco_node_is_power_on') %></strong></li>
+                    <li><strong><%= __('node_synchronized') %></strong></li>
+                    <li><strong><%= __('have_a_stable_connection') %></strong></li>
+                    <li><strong><%= __('running_the_baking_app') %></strong></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

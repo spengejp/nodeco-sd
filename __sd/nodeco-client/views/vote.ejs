@@ -1,0 +1,245 @@
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <h2 class="text-dark" style="font-size: 1.4em;"><%= __('voting') %></h2>
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<div class="content">
+    <div class="container">
+        <div class="motd-message"></div>
+
+        <ul class="list-group shadow-sm mb-3">
+            <li class="list-group-item bg-gradient-primary">
+                <h3 class="card-title" style="font-weight: bold; font-size: 1.0em;"><%= __('voting') %></h3>
+            </li>
+
+            <li class="list-group-item">
+                <div class="submit-view row">
+                    <div class="spinner-border text-primary" style="margin: 20px;" role="status">
+                        <span class="sr-only"><%= __('loading') %></span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <ul class="list-group shadow-sm mb-3">
+            <li class="list-group-item bg-gradient-primary">
+                <h3 class="card-title" style="font-weight: bold; font-size: 1.0em;"><%= __('status') %></h3>
+            </li>
+
+            <li class="list-group-item">
+                <p><strong><%= __('voting_period') %></strong> (<%= __('until_the_end_of_the_period') %> <strong
+                        class="vote_remain_day">?</strong> <%= __('day') %>)
+                </p>
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 col-12">
+                        <div class="period-proposal card p-2">
+                            <strong>1. Proposal</strong>
+                            <%= __('proposal_collection') %>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-12">
+                        <div class="period-exploration card p-2">
+                            <strong>2. Exploration</strong>
+                            <%= __('experimental_voting') %>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-12">
+                        <div class="period-testing card p-2">
+                            <strong>3. Testing</strong>
+                            <%= __('proposal_examination') %>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-12">
+                        <div class="period-promotion card p-2">
+                            <strong>4. Promotion</strong>
+                            <%= __('promotion_voting') %>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    Block : <span class="cur_block">?</span> (Cycle <span class="cur_cycle">?</span>)<br>
+                    <div class="row mt-1">
+                        <div class="col-md-2 col-sm-2 col-3 text-right">
+                            <span class="cur_vote_begin"></span>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-6">
+                            <div class="progress">
+                                <div class="progress-bar bg-primary progress-bar-striped cur_vote_per"
+                                    role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                                    style="width: 0%;">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-3 text-left">
+                            <span class="cur_vote_end"></span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li class="section-loading list-group-item">
+                <div class="spinner-border text-primary" style="margin: 20px;" role="status">
+                    <span class="sr-only"><%= __('loading') %></span>
+                </div>
+            </li>
+            <li class="section-proposal list-group-item d-none">
+                <div class="vote-alert alert"></div>
+                <div class="row mb-4">
+                    <canvas id="vote-proposal-chart" class="col-md-8 col-sm-12 col-12"></canvas>
+                    <img id="vote-proposal-chart-none" class="col-md-8 col-sm-12 col-12 d-none"
+                        src="img/not_found.png" />
+                    <div class="col-md-4 col-sm-12 col-12 mt-3">
+                        <ul class="list-group">
+                            <li class="list-group-item bg-gradient-light">
+                                <h3 class="card-title" style="font-weight: bold; font-size: 1.0em;">
+                                    <%= __('situation') %></h3>
+                            </li>
+                            <li class="list-group-item"><span class="vote_period">?</span></li>
+                            <li class="list-group-item"><%= __('until_the_end_more') %> <span
+                                    class="vote_remain">?</span> Block</li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+
+            <li class="section-exploration list-group-item d-none">
+                <div class="vote-alert alert"></div>
+                <div class="row mb-4">
+                    <canvas id="vote-exploration-chart" class="col-md-6 col-sm-12 col-12"></canvas>
+                    <div class="col-md-6 col-sm-12 col-12 mt-3">
+                        <ul class="list-group">
+                            <li class="list-group-item bg-gradient-light">
+                                <h3 class="card-title" style="font-weight: bold; font-size: 1.0em;">
+                                    <%= __('situation') %></h3>
+                            </li>
+                            <li class="list-group-item">
+                                <%= __('quorum') %>: <div class="vote_quorum pull-right">
+                                    <strong class="vote_participation_per">?</strong>
+                                    <strong class="vote_quorum_reached"></strong>
+                                    <span class="vote_quorum_per">?</span></div>
+                                <div class="progress progress-quorum"></div>
+                                <div class="progress-quorum-boarder"></div>
+                            </li>
+                            <li class="list-group-item">
+                                <%= __('majority') %>: <div class="vote_majority pull-right">
+                                    <strong class="vote_yay_per">?</strong>
+                                    <strong class="vote_majority_reached"></strong>
+                                    <span class="vote_majority_per">?</span></div>
+                                <div class="progress progress-majority"></div>
+                                <div class="progress-majority-boarder"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+
+            <li class="section-testing list-group-item d-none">
+                <div class="vote-alert alert alert-primary" role="alert">
+                    <strong> <%= __('proposal_contents_are_being_during_the_examination!') %></strong>
+                    <%= __('thare_is_no_need_to_vote') %>
+                </div>
+            </li>
+
+            <li class="section-promotion list-group-item d-none">
+                <div class="vote-alert alert"></div>
+                <div class="row mb-4">
+                    <canvas id="vote-promotion-chart" class="col-md-6 col-sm-12 col-12"></canvas>
+                    <div class="col-md-6 col-sm-12 col-12 mt-3">
+                        <ul class="list-group">
+                            <li class="list-group-item bg-gradient-light">
+                                <h3 class="card-title" style="font-weight: bold; font-size: 1.0em;">
+                                    <%= __('situation') %></h3>
+                            </li>
+                            <li class="list-group-item">
+                                <%= __('quorum') %>: <div class="vote_quorum pull-right">
+                                    <strong class="vote_participation_per">?</strong>
+                                    <strong class="vote_quorum_reached"></strong>
+                                    <span class="vote_quorum_per">?</span></div>
+                                <div class="progress progress-quorum"></div>
+                                <div class="progress-quorum-boarder"></div>
+                            </li>
+                            <li class="list-group-item">
+                                <%= __('majority') %>: <div class="vote_majority pull-right">
+                                    <strong class="vote_yay_per">?</strong>
+                                    <strong class="vote_majority_reached"></strong>
+                                    <span class="vote_majority_per">?</span></div>
+                                <div class="progress progress-majority"></div>
+                                <div class="progress-majority-boarder"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modal-wallet" tabindex="-1" role="dialog" style="z-index: 1200;">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-wallet-1 modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><%= __('launch_to_the_tezos_wallet_app') %></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><%= __('operate_your_ledger') %></p>
+                        <p>[<%= __('image_of_connecting_ledger_to_nodeco') %>]</p>
+                        <p>[<%= __('image_of_inputting_password_in_ledger') %>]</p>
+                        <p>[<%= __('image_of_operating_ledger') %>]</p>
+                        <p><%= __('when_the_operation_completes_click_next') %></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('cancel') %></button>
+                        <button type="button" class="btn btn-primary" id="n-wallet-2"><%= __('next') %></button>
+                    </div>
+                </div><!-- /.modal-wallet-1 -->
+                <div class="modal-wallet-2 modal-content d-none">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><%= __('processing') %></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="spinner-border text-primary" style="margin: 20px;" role="status">
+                            <span class="sr-only"><%= __('processing') %></span>
+                        </div>
+                        <span id="n-wallet-3"></span>
+                        <span id="n-wallet-4"></span>
+                    </div>
+                </div><!-- /.modal-wallet-2 -->
+                <div class="modal-wallet-3 modal-content d-none">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><%= __('voting_complete') %></h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4><%= __('moving_to_the_tezos_baking_app') %></h4>
+                        <p><%= __('voting_is_completed') %></p>
+                        <p><%= __('operate_your_ledger') %></p>
+                        <p>[<%= __('image_of_connecting_ledger_to_nodeco') %>]</p>
+                        <p>[<%= __('image_of_inputting_password_in_ledger') %>]</p>
+                        <p>[<%= __('image_of_operating_ledger_and_moving_to_tezos_baking') %>]</p>
+                        <p><%= __('when_the_operation_completes_click_close') %></p>
+                        <p><strong style="color:red;"><%= __('if_you_forget_the_operation') %></strong></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('close') %></button>
+                    </div>
+                </div><!-- /.modal-wallet-3 -->
+                <div class="modal-wallet-4 modal-content d-none">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><%= __('voting_failure') %></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p><%= __('error_failed_to_the_voting') %></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('close') %></button>
+                    </div>
+                </div><!-- /.modal-wallet-4 -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+    </div>
+</div>

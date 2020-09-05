@@ -1,0 +1,16 @@
+# The Tezos Node service (part of systemd)
+# file: /mnt/sd/.config/systemd/user/tezos-node.service 
+
+[Unit]
+Description     = Tezos Node Service
+Documentation   = http://tezos.gitlab.io/mainnet/
+Wants           = network-online.target openvpn.service
+
+[Service]
+ExecStart       = /bin/bash -c '${HOME}/.config/systemd/user/tezos-node.sh'
+Restart         = on-failure
+Type            = simple
+
+[Install]
+WantedBy        = default.target
+RequiredBy      = tezos-daemons.service

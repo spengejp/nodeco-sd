@@ -1,0 +1,53 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    - username: nodeco
+    - sda: /mnt/sd
+
+  tasks:
+    - name: build tezos networks
+      shell: >
+        if [ -d "{{sda}}/tezos" ]; then
+          exit 0
+        fi;
+        cd {{sda}};
+        git clone https://gitlab.com/tezos/tezos.git tezos;
+        cd tezos;
+        git checkout latest-release;
+        opam init --bare;
+        make build-deps;
+        eval $(opam env);
+        make;
+
+    - name: sync tezos data
+      synchronize:
+        src: "{{sda}}/tezos/"
+        dest: "__sd/tezos/"
+        rsync_opts:
+          - "--no-motd"
+          - "--exclude=.*"
+          - "--exclude=Makefile"
+          - "--exclude=_build/"
+          - "--exclude=_opam/"
+          - "--exclude=docs/"
+          - "--exclude=emacs/"
+          - "--exclude=src/"
+          - "--exclude=tests_python/"
+          - "--exclude=vendors/"
+
+    - name: sync nodeco-client related data
+      synchronize:
+        src: "{{sda}}/nodeco-client/"
+        dest: "__sd/nodeco-client/"
+        rsync_opts:
+          - "--no-motd"
+          - "--exclude=.*"
+
+    - name: sync nodeco-api related data
+      synchronize:
+        src: "{{sda}}/nodeco-api/"
+        dest: "__sd/nodeco-api/"
+        rsync_opts:
+          - "--no-motd"
+          - "--exclude=.*"

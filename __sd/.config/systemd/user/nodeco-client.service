@@ -1,0 +1,15 @@
+# The Nodeco Client service (part of systemd)
+# file: /etc/systemd/system/nodeco-client.service 
+
+[Unit]
+Description     = Nodeco Client Service
+Wants		= network-online.target openvpn.service
+
+[Service]
+ExecStartPre	= /bin/bash -c 'cd ${HOME}/nodeco-api; ./shell/preexec.sh'
+ExecStart	= /bin/bash -c 'cd ${HOME}/nodeco-client; ./run.sh'
+#TimeoutStartSec = "10min"
+Restart         = on-failure
+
+[Install]
+WantedBy        = default.target

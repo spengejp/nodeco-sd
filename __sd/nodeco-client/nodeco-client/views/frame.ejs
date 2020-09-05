@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="<%= items.lang %>">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Nodeco Dashboard</title>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="css/adminlte.min.css">
+    <!-- My Theme style-->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="hold-transition sidebar-mini" style="background: #f4f6f9;">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand bg-gradient-primary navbar-light border-bottom">
+            <h1 class="mt-1 ml-2" style="font-size: 1.5em;">Nodeco Health</h1>
+            <!-- Left navbar links -->
+            <ul class="ml-auto navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"
+                            style="color: white;"></i></a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="./" class="brand-link">
+                <img src="img/nodeco.png" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8;">
+                <span class="brand-text font-weight-light">Menu</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pill nav-sidebar flex-column" role="menu">
+                        <li class="nav-item">
+                            <a href="./" class="nav-link <% if (items.page === 'index') { %>active<% } %>">
+                                <i class="nav-icon fa fa-th"></i>
+                                <p><%= __('main_info') %></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./data" class="nav-link <% if (items.page === 'data') { %>active<% } %>">
+                                <i class="nav-icon fa fa-database"></i>
+                                <p><%= __('data') %></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./vote" class="nav-link <% if (items.page === 'vote') { %>active<% } %>">
+                                <i class="nav-icon fa fa-sticky-note"></i>
+                                <p><%= __('voting') %></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./dapps" class="nav-link <% if (items.page === 'dapps') { %>active<% } %>">
+                                <i class="nav-icon fa fa-cube"></i>
+                                <p><%= __('dapps') %></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./dev" class="nav-link <% if (items.page === 'dev') { %>active<% } %>">
+                                <i class="nav-icon fa fa-code"></i>
+                                <p><%= __('develop') %></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./setting" class="nav-link <% if (items.page === 'setting') { %>active<% } %>">
+                                <i class="nav-icon fa fa-cog"></i>
+                                <p><%= __('setting') %></p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <%- include(items.page, {items: items}) %>
+        </div>
+    </div>
+    <!-- ./wrapper -->
+    <!-- REQUIRED SCRIPTS -->
+
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- i18n -->
+    <script src="plugins/i18n/jquery.i18n.js"></script>
+    <script src="plugins/i18n/jquery.i18n.messagestore.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="libs/adminlte.min.js"></script>
+    <!-- Optional Scripts -->
+    <script src="plugins/chart.js/Chart.min.js"></script>
+    <script src="libs/moment.js"></script>
+    <script src="libs/common.js" defer></script>
+
+    <% for (let script of items.scripts) { %>
+    <script src="<%- script %>" defer></script>
+    <% } %>
+</body>
+
+</html>

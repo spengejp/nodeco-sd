@@ -1,0 +1,433 @@
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <h2 class="text-dark" style="font-size: 1.4em;"><%= __('setting') %></h2>
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<div class="content">
+    <div class="container">
+        <div class="card card-default">
+            <div class="card-header bg-gradient-primary">
+                <h3 class="card-title" style="font-size: 1.0em"><strong><%= __('status') %></strong></h3>
+            </div>
+
+            <div class="card-body">
+                <div class="form-group">
+                    <label style="display: block;"></label>
+                    <ul class="status list-group">
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-default">
+
+            <div class="card-header bg-gradient-primary">
+                <h3 class="card-title" style="font-size: 1.0em"><strong><%= __('baking_setting') %></strong></h3>
+            </div>
+
+            <form class="form-horizontal">
+                <div class="card-body">
+                    <div class="sync_message"></div>
+
+                    <div class="form-group">
+                        <label style="display: block;"><%= __('baking_mode') %></label>
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="bakemode_hyblid btn btn-outline-info active">
+                                <input type="radio" id="mode-hyblid" name="mode-options" value="hyblid" />
+                                <%= __('hybrid') %>
+                            </label>
+                            <label class="bakemode_self btn btn-outline-info">
+                                <input type="radio" id="mode-self" name="mode-options" value="self" />
+                                <%= __('self') %>
+                            </label>
+                            <label class="bakemode_delegate btn btn-outline-info">
+                                <input type="radio" id="mode-delegate" name="mode-options" value="delegate" />
+                                <%= __('delegate') %>
+                            </label>
+                        </div>
+                        <div class="delegate_dest mt-2">
+                            <label style="display: block;"><%= __('delegate_destination') %></label>
+                            <input type="text" id="addr-delegate" class="form-control"
+                                placeholder="<%= __('delegate_address') %>(tz1...)" />
+                        </div>
+                    </div>
+
+                    <div class="balance_adjust form-row">
+                        <div class="form-group col-md-12 mb-0">
+                            <label style="display: block;"><%= __('balance_adjustment') %> <small><a
+                                        id="submit-auto-balance"
+                                        class="a_link"><%= __('automatic_adjustment') %></a></small></label>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label class="font-weight-normal"><%= __('main_account') %> <small><a
+                                        id="submit-max-balance" class="a_link">Max</a></small></label>
+                            <input type="text" id="balance-main" class="form-control"
+                                placeholder="Main <%= __('balance') %>" />
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label class="font-weight-normal"><%= __('baker_account') %></label>
+                            <input type="text" id="balance-baker" class="form-control"
+                                placeholder="Baker <%= __('balance') %>" disabled />
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="font-weight-normal"><%= __('affordable_fee') %></label>
+                            <input type="text" id="balance-fee" class="form-control"
+                                placeholder="<%= __('affordable_fee') %>" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="card-footer bg-gradient-light">
+                <button type="button" class="btn btn-primary" id="submit-bake"
+                    disabled><%= __('registration') %></button>
+            </div>
+        </div>
+
+
+        <div class="card card-default">
+            <div class="card-header bg-gradient-primary">
+                <h3 class="card-title" style="font-size: 1.0em"><strong><%= __('node_setting') %></strong></h3>
+            </div>
+            <form class="form-horizontal">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label style="display: block;"><%= __('secure_node') %> (※<%= __('not_free') %>)</label>
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-outline-info active">
+                                <input type="radio" name="secure-options" value="on" checked />
+                                <%= __('use') %>
+                            </label>
+                            <label class="btn btn-outline-info">
+                                <input type="radio" name="secure-options" value="off" />
+                                <%= __('not_use') %>
+                            </label>
+                        </div>
+                        <p style="margin-top: 5px;"><%= __('charge_state') %>：<strong
+                                style="color: red;"><%= __('vaild') %></strong></p>
+                        <p class="mt-2"><%- __('register_from_web') %></p>
+                    </div>
+                </div>
+                <div class="card-footer bg-gradient-light">
+                    <button type="button" class="btn btn-primary" id="submit-node"><%= __('registration') %></button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modal-wallet" tabindex="-1" role="dialog" style="z-index: 1200;">
+            <div class="modal-dialog modal-lg" role="document">
+
+                <div class="modal-wallet-1 modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><%= __('create_a_baker_account') %></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><%= __('create_a_baker_account_.') %></p>
+                        <p><%= __('this_operation_incurs_some_fees') %></p>
+
+                        <!-- modal-wallet-1_ledger -->
+                        <div class="modal-wallet-1_ledger mt-4 d-none">
+                            <h5><%= __('ledger_setting') %></h5>
+                            <p><%= __('enter_ledger_information') %></p>
+                            <div>
+                                <label style="font-weight: normal;"><%= __('encryption_method') %>　<a
+                                        href="#">(<%= __('what_is_an_encryption_method') %>)</a></label>
+                                <input type="text" class="form-control" name="ledger-crypt"
+                                    placeholder="<%= __('encryption_method') %>(<%= __('e_g') %>：ed25519)">
+                                <label style="font-weight: normal;"><%= __('induction_path') %> <a
+                                        href="#">(<%= __('what_is_an_induction_path') %>)</a></label>
+                                <input type="text" class="form-control" name="ledger-path"
+                                    placeholder="<%= __('induction_path') %>(<%= __('e_g') %>：/0h/0h)">
+                            </div>
+                        </div>
+
+                        <!-- modal-wallet-1_wallet -->
+                        <div class="modal-wallet-1_wallet mt-4 d-none">
+                            <h5><%= __('setting_a_wallet_password') %></h5>
+                            <p><%= __('enter_wallet_password') %></p>
+                            <p>
+                                <label style="font-weight: normal;"><%= __('password') %></label>
+                                <input type="password" name="noledger-pass" class="form-control" placeholder="********">
+                                <label
+                                    style="font-weight: normal;"><%= __('password') %>(<%= __('confirmation') %>)</label>
+                                <input type="password" name="noledger-repass" class="form-control"
+                                    placeholder="********">
+                            </p>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                data-dismiss="modal"><%= __('cancel') %></button>
+                            <button type="button" class="btn btn-primary" id="n-wallet-2"><%= __('next') %></button>
+                        </div>
+                    </div>
+                </div><!-- /.modal-wallet-1 -->
+
+                <div class="modal-wallet-2 modal-content d-none">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><%= __('launch_to_the_tezos_baking_app') %></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><%= __('operate_your_ledger_and_move_to_the_tezos_baking_app') %></p>
+                        <p>[<%= __('image_of_connecting_ledger_to_nodeco') %>]</p>
+                        <p>[<%= __('image_of_inputting_password_in_ledger') %>]</p>
+                        <p>[<%= __('image_of_operating_ledger_and_moving_to_tezos_baking_app') %>]</p>
+                        <p><%= __('when_the_operation_completes_click_next') %></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('cancel') %></button>
+                        <button type="button" class="btn btn-primary" id="n-wallet-3"><%= __('next') %></button>
+                    </div>
+                </div><!-- /.modal-wallet-2 -->
+
+                <div class="modal-wallet-3 modal-content d-none">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><%= __('processing') %></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="spinner-border text-primary" style="margin: 20px;" role="status">
+                            <span class="sr-only"><%= __('processing') %></span>
+                        </div>
+                        <span id="n-wallet-4"></span>
+                        <span id="n-wallet-0"></span>
+                    </div>
+                </div><!-- /.modal-wallet-3 -->
+
+                <div class="modal-wallet-4 modal-content d-none">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><%= __('launch_to_the_tezos_wallet_app') %></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><%= __('operate_your_ledger') %></p>
+                        <p>[<%= __('image_of_connecting_ledger_to_nodeco') %>]</p>
+                        <p>[<%= __('image_of_inputting_password_in_ledger') %>]</p>
+                        <p>[<%= __('image_of_operating_ledger') %>]</p>
+                        <p><%= __('when_the_operation_completes_click_next') %></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('cancel') %></button>
+                        <button type="button" class="btn btn-primary" id="n-wallet-5"><%= __('next') %></button>
+                    </div>
+                </div><!-- /.modal-wallet-4 -->
+
+                <div class="modal-wallet-5 modal-content d-none">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><%= __('processing') %></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="spinner-border text-primary" style="margin: 20px;" role="status">
+                            <span class="sr-only"><%= __('processing') %></span>
+                        </div>
+                        <span id="n-wallet-9"></span>
+                        <span id="n-wallet-0"></span>
+                    </div>
+                </div><!-- /.modal-wallet-5 -->
+
+                <div class="modal-wallet-9 modal-content d-none">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><%= __('setting_complete') %></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p><%= __('completed') %></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('close') %></button>
+                    </div>
+                </div><!-- /.modal-wallet-9 -->
+
+                <div class="modal-wallet-0 modal-content d-none">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><%= __('setting_failure') %></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p><%= __('failed_to_the_setting') %></p>
+                        <p class="text-danger error_text"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('close') %></button>
+                    </div>
+                </div><!-- /.modal-wallet-0 -->
+
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <div class="card card-default">
+            <div class="card-header bg-gradient-primary">
+                <h3 class="card-title" style="font-size: 1.0em"><strong><%= __('display_setting') %></strong></h3>
+            </div>
+            <form class="form-horizontal">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="language" style="display: block;"><%= __('display_language') %></label>
+                        <select id="language" class="custom-select">
+                            <option value="ja">Japanese</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="basefiat" style="display: block;"><%= __('key_currency') %></label>
+                        <select id="basefiat" class="custom-select">
+                            <option value="jpy">JPY</option>
+                            <option value="usd">USD</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-footer bg-gradient-light">
+                    <button type="button" class="btn btn-primary" id="submit-view"><%= __('update') %></button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card card-default">
+            <div class="card-header bg-gradient-primary">
+                <h3 class="card-title" style="font-size: 1.0em"><strong><%= __('the_others') %></strong></h3>
+            </div>
+            <form class="form-horizontal">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label style="display: block;"><%= __('redo_initial_setting') %></label>
+                        <button type="button" class="btn btn-primary"
+                            id="submit-initial"><%= __('initial_setting') %></button>
+                    </div>
+                    <div class="form-group">
+                        <label style="display: block;"><%= __('network') %></label>
+                        <div class="form-group">
+                            <select id="network" class="custom-select">
+                                <option value="mainnet">Mainnet</option>
+                                <option value="carthagenet">Carthagenet</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary"
+                            id="submit-update"><%= __('update_switching') %></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- /.modal-update -->
+        <div class="modal fade" id="modal-update" tabindex="-1" role="dialog" style="z-index: 1200;">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-update-1 modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><%= __('nodeco_update') %></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><%= __('update_nodeco_this_will_take_a_long_time') %></p>
+                        <p><strong style="color: red;"><%= __('updating_do_not_power_off_nodeco') %></strong></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('cancel') %></button>
+                        <button type="button" class="btn btn-primary" id="n-update-2"><%= __('execution') %></button>
+                    </div>
+                </div><!-- /.modal-update-1 -->
+                <div class="modal-update-2 modal-content d-none">
+                    <div class="modal-header">
+                        <h4 class="modal-title">[1/4]<%= __('system_data_downloading') %></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p><%= __('downloading_system_data_this_will_take_a_long_time') %></p>
+                        <p><strong
+                                style="color: red;"><%= __('please_wait_for_a_while_without_power_off_nodeco') %></strong>
+                        </p>
+                        <p class="console"></p>
+                        <div class="spinner-border text-primary" style="margin: 20px;" role="status">
+                            <span class="sr-only"><%= __('downloading') %></span>
+                        </div>
+                        <span id="n-update-3"></span>
+                        <span id="n-update-0"></span>
+                    </div>
+                </div><!-- /.modal-update-2 -->
+                <div class="modal-update-3 modal-content d-none">
+                    <div class="modal-header">
+                        <h4 class="modal-title">[2/4]<%= __('system_updating') %></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p><%= __('updating_nodeco_this_will_take_a_long_time') %></p>
+                        <p><strong
+                                style="color: red;"><%= __('please_wait_for_a_while_without_power_off_nodeco') %></strong>
+                        </p>
+                        <p class="console"></p>
+                        <div class="spinner-border text-primary" style="margin: 20px;" role="status">
+                            <span class="sr-only"><%= __('updating') %></span>
+                        </div>
+                        <span id="n-update-4"></span>
+                        <span id="n-update-0"></span>
+                    </div>
+                </div><!-- /.modal-update-3 -->
+                <div class="modal-update-4 modal-content d-none">
+                    <div class="modal-header">
+                        <h4 class="modal-title">[3/4]<%= __('node_data_downloading') %></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p><%= __('downloading_node_data_this_will_take_a_long_time') %></p>
+                        <p><strong
+                                style="color: red;"><%= __('please_wait_for_a_while_without_power_off_nodeco') %></strong>
+                        </p>
+                        <p class="console"></p>
+                        <div class="spinner-border text-primary" style="margin: 20px;" role="status">
+                            <span class="sr-only"><%= __('downloading') %></span>
+                        </div>
+                        <span id="n-update-5"></span>
+                        <span id="n-update-0"></span>
+                    </div>
+                </div><!-- /.modal-update-4 -->
+                <div class="modal-update-5 modal-content d-none">
+                    <div class="modal-header">
+                        <h4 class="modal-title">[4/4]<%= __('node_data_importing') %></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p><%= __('importing_node_data_this_will_take_a_long_time') %></p>
+                        <p><strong
+                                style="color: red;"><%= __('please_wait_for_a_while_without_power_off_nodeco') %></strong>
+                        </p>
+                        <p class="console"></p>
+                        <div class="spinner-border text-primary" style="margin: 20px;" role="status">
+                            <span class="sr-only"><%= __('node_data_importing') %></span>
+                        </div>
+                        <span id="n-update-9"></span>
+                        <span id="n-update-0"></span>
+                    </div>
+                </div><!-- /.modal-update-5 -->
+
+                <div class="modal-update-9 modal-content d-none">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><%= __('update_complete') %></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p><%= __('completed') %></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('close') %></button>
+                    </div>
+                </div><!-- /.modal-update-9 -->
+                <div class="modal-update-0 modal-content d-none">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><%= __('update_failure') %></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p><%= __('failed_to_the_update') %></p>
+                        <p class="text-danger error_text"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('close') %></button>
+                    </div>
+                </div><!-- /.modal-update-0 -->
+
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal-update -->
+
+    </div><!-- /.container -->
+</div>
+<!-- /.content -->

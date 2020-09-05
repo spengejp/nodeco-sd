@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Nodeco</title>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="css/adminlte.min.css">
+    <!-- My Theme style-->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body style="background: #f4f6f9;">
+    <!-- Navbar -->
+    <nav class="navbar bg-gradient-light navbar-light border-bottom">
+        <h1 class="mt-1 ml-2" style="font-size: 1.5em;">Nodeco</h1>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <h2 class="text-dark" style="font-size: 1.4em;">Setup</h2>
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <div class="content">
+        <div class="s_setup container">
+            <div class="card card-default">
+                <!-- s_setup -->
+                <div class="card-header bg-gradient-light">
+                    <h2 class="card-title"><strong>Nodeco Setup</strong></h2>
+                </div>
+
+                <!-- s_setup_welcome -->
+                <div class="s_setup_welcome card-body">
+                    <h4>Welcome to Nodeco!</h4>
+                    <p>[Welcome Image]</p>
+                    <h4>Language Setting</h4>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="language" style="display: block;">Language Select</label>
+                            <select id="language" class="custom-select">
+                                <option value="en">English</option>
+                                <option value="ja">Japanese</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="s_setup_welcome card-footer bg-gradient-light">
+                    <button type="submit" id="btn_welcome" class="n_setup_update btn btn-primary">Next</button>
+                </div>
+
+                <!-- s_setup_update -->
+                <div class="s_setup_update card-body d-none">
+                    <h4><%= __('nodeco_update') %></h4>
+                    <p><%= __('update_nodeco_this_will_take_a_long_time') %></p>
+                    <p><strong style="color: red;"><%= __('updating_do_not_power_off_nodeco') %></strong></p>
+
+                    <p><%= __('select_the_network_to_use') %></p>
+                    <div class="form-group">
+                        <select id="network" class="custom-select">
+                            <option value="mainnet">Mainnet</option>
+                            <option value="carthagenet">Carthagenet</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="s_setup_update card-footer bg-gradient-light d-none">
+                    <button type="submit" class="n_setup_welcome btn btn-info"><%= __('back') %></button>
+                    <button type="submit" class="n_setup_update1 btn btn-primary"><%= __('next') %></button>
+                </div>
+
+                <!-- s_setup_update1 -->
+                <div class="s_setup_update1 card-body d-none">
+                    <h4>[1/4]<%= __('system_data_downloading') %></h4>
+                    <p><%= __('downloading_system_data_this_will_take_a_long_time') %></p>
+                    <p><strong
+                            style="color: red;"><%= __('please_wait_for_a_while_without_power_off_nodeco') %></strong>
+                    </p>
+                    <p class="console"></p>
+                    <div class="spinner-border text-primary" style="margin: 20px;" role="status">
+                        <span class="sr-only"><%= __('downloading') %></span>
+                    </div>
+                    <span class="n_setup_update2"></span>
+                </div>
+
+                <!-- s_setup_update2 -->
+                <div class="s_setup_update2 card-body d-none">
+                    <h4>[2/4]<%= __('system_updating') %></h4>
+                    <p><%= __('updating_nodeco_this_will_take_a_long_time') %></p>
+                    <p><strong
+                            style="color: red;"><%= __('please_wait_for_a_while_without_power_off_nodeco') %></strong>
+                    </p>
+                    <p class="console"></p>
+                    <div class="spinner-border text-primary" style="margin: 20px;" role="status">
+                        <span class="sr-only"><%= __('updating') %></span>
+                    </div>
+                    <span class="n_setup_update3"></span>
+                </div>
+
+                <!-- s_setup_update3 -->
+                <div class="s_setup_update3 card-body d-none">
+                    <h4>[3/4]<%= __('node_data_downloading') %></h4>
+                    <p><%= __('downloading_node_data_this_will_take_a_long_time') %></p>
+                    <p><strong
+                            style="color: red;"><%= __('please_wait_for_a_while_without_power_off_nodeco') %></strong>
+                    </p>
+                    <p class="console"></p>
+                    <div class="spinner-border text-primary" style="margin: 20px;" role="status">
+                        <span class="sr-only"><%= __('downloading') %></span>
+                    </div>
+                    <span class="n_setup_update4"></span>
+                </div>
+
+                <!-- s_setup_update4 -->
+                <div class="s_setup_update4 card-body d-none">
+                    <h4>[4/4]<%= __('node_data_importing') %></h4>
+                    <p><%= __('importing_node_data_this_will_take_a_long_time') %></p>
+                    <p><strong
+                            style="color: red;"><%= __('please_wait_for_a_while_without_power_off_nodeco') %></strong>
+                    </p>
+                    <p class="console"></p>
+                    <div class="spinner-border text-primary" style="margin: 20px;" role="status">
+                        <span class="sr-only"><%= __('importing') %></span>
+                    </div>
+                    <span class="n_setup_ledger"></span>
+                </div>
+
+                <!-- s_setup_ledger -->
+                <div class="s_setup_ledger card-body d-none">
+                    <h4><%= __('using_ledger') %></h4>
+                    <p><%= __('do_you_use_ledger') %></p>
+                    <div class="s_setup_ledger d-none">
+                        <button type="submit" class="n_setup_ledger_use btn btn-info"><%= __('yes') %></button>
+                        <button type="submit" class="n_setup_ledger_nouse btn btn-primary"><%= __('no') %></button>
+                    </div>
+
+                    <!-- s_setup_ledger_use -->
+                    <div class="s_setup_ledger_use mt-4 d-none">
+                        <h4><%= __('ledger_setting') %></h4>
+                        <p><%= __('enter_ledger_information') %></p>
+                        <h5><%= __('wallet_name') %>(<%= __('favorite_things') %>)</h5>
+                        <div class="form-group row">
+                            <label class="control-form-label font-weight-normal ml-3 mt-2"><span
+                                    class="network_val"></span>_</label>
+                            <div class="col-sm-5">
+                                <input type="text" name="ledger-name" class="form-control" value="ledger"
+                                    placeholder="<%= __('alias_name') %>(<%= __('e_g') %>: ledger)">
+                            </div>
+                        </div>
+                        <h5><%= __('wallet_type') %></h5>
+                        <p><%= __('if_you_have_already_created_it_set_the_wallet_type') %></p>
+                        <p><%= __('if_this_is_first_launch_or_if_you_previously_selected') %></p>
+                        <p class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="n_setup_ledger_use btn btn-outline-info ledger_nodeco focus active">
+                                <input type="radio" name="ledger-options" value="nodeco" checked>
+                                Nodeco
+                            </label>
+                            <label class="n_setup_ledger_use btn btn-outline-info ledger_galleon">
+                                <input type="radio" name="ledger-options" value="galleon">
+                                Galleon
+                            </label>
+                            <label class="n_setup_ledger_use btn btn-outline-info ledger_tezbox">
+                                <input type="radio" name="ledger-options" value="tezbox">
+                                TezBox
+                            </label>
+                            <label class="n_setup_ledger_use_detail btn btn-outline-info ledger_detail">
+                                <input type="radio" name="ledger-options" value="others">
+                                <%= __('the_others') %> (<%= __('advanced_setting') %>)
+                            </label>
+                        </p>
+                        <!-- s_setup_ledger_use_detail -->
+                        <div class="s_setup_ledger_use_detail d-none">
+                            <label style="font-weight: normal;"><%= __('encryption_method') %>　<a
+                                    href="#">(<%= __('what_is_an_encryption_method') %>)</a></label>
+                            <input type="text" class="form-control" name="ledger-crypt"
+                                placeholder="<%= __('encryption_method') %>(<%= __('e_g') %>：ed25519)">
+                            <label style="font-weight: normal;"><%= __('induction_path') %> <a
+                                    href="#">(<%= __('what_is_an_induction_path') %>)</a></label>
+                            <input type="text" class="form-control" name="ledger-path"
+                                placeholder="<%= __('induction_path') %>(<%= __('e_g') %>：/0h/0h)">
+                        </div>
+                    </div>
+                    <div class="s_setup_ledger_use mt-3 d-none">
+                        <button type="submit" class="n_setup_walletapp btn btn-primary"><%= __('next') %></button>
+                    </div>
+
+                    <!-- s_setup_ledger_nouse -->
+                    <div class="s_setup_ledger_nouse mt-4 d-none">
+                        <h4><%= __('setting_a_wallet_password') %></h4>
+                        <h5><%= __('wallet_name') %>(<%= __('favorite_things') %>)</h5>
+                        <div class="form-group row">
+                            <label class="control-form-label font-weight-normal ml-3 mt-2"><span
+                                    class="network_val"></span>_</label>
+                            <div class="col-sm-5">
+                                <input type="text" name="noledger-name" class="form-control" value="wallet"
+                                    placeholder="<%= __('alias_name') %>(<%= __('e_g') %>: wallet)">
+                            </div>
+                        </div>
+                        <h5><%= __('wallet_password') %></h5>
+                        <p>
+                            <label style="font-weight: normal;"><%= __('password') %></label>
+                            <input type="password" name="noledger-pass" class="form-control" placeholder="********">
+                            <label style="font-weight: normal;"><%= __('password') %>(<%= __('confirmation') %>)</label>
+                            <input type="password" name="noledger-repass" class="form-control" placeholder="********">
+                        </p>
+                    </div>
+                    <div class="s_setup_ledger_nouse mt-4 d-none">
+                        <button type="submit" class="n_setup_generate btn btn-primary"><%= __('next') %></button>
+                    </div>
+                </div>
+
+                <!-- s_setup_walletapp -->
+                <div class="s_setup_walletapp card-body d-none">
+                    <h4><%= __('moving_to_the_tezos_wallet_app') %></h4>
+                    <p><%= __('operate_your_ledger_and_move_to_the_tezos_wallet_app') %></p>
+                    <p>[<%= __('image_of_connecting_ledger_to_nodeco') %>]</p>
+                    <p>[<%= __('image_of_inputting_password_in_ledger') %>]</p>
+                    <p>[<%= __('image_of_operating_ledger') %>]</p>
+                    <p><%= __('when_the_operation_completes_click_next') %></p>
+                </div>
+                <div class="s_setup_walletapp card-footer bg-gradient-light d-none">
+                    <button type="submit" class="n_setup_ledger btn btn-info"><%= __('back') %></button>
+                    <button type="submit" class="n_setup_initwallet btn btn-primary"><%= __('next') %></button>
+                </div>
+
+                <!-- s_setup_initwallet -->
+                <div class="s_setup_initwallet card-body d-none">
+                    <h4><%= __('processing') %></h4>
+                    <div class="spinner-border text-primary" style="margin-top: 20px;" role="status">
+                        <span class="sr-only"><%= __('processing') %></span>
+                    </div>
+                    <p><%= __('operate_ledger_and_approve_the_registration') %></p>
+                    <p>[<%= __('image_of_operating_ledger_and_click_the_right_button_to_allow') %>]</p>
+                    <span class="n_setup_complete"></span>
+                </div>
+
+                <!-- s_setup_complete -->
+                <div class="s_setup_complete card-body d-none">
+                    <h4><%= __('setting_complete') %></h4>
+                    <p><%= __('setup_is_completed') %></p>
+                    <div class="nodeco-wallet d-none">
+                        <h5><%= __('wallet_file') %></h5>
+                        <p><%= __('the_wallet_file_has_been_downloaded_please_keep_it') %></p>
+                        <p class="mnemonic" style="margin: 20px; background-color: azure; font-size: 120%;"></p>
+                        <p class="text-danger">
+                            <%= __('a_secret_passphrase_has_been_generated_please_write_it') %><br />
+                            <strong><%= __('if_you_lose_it_you_cant_restore_the_wallet') %></strong>
+                        </p>
+                    </div>
+                    <p><%= __('click_complete') %></p>
+                </div>
+                <div class="s_setup_complete card-footer bg-gradient-light d-none">
+                    <a class="btn btn-primary" href="./" role="button"><%= __('complete') %></a>
+                </div>
+
+                <!-- s_setup_failure -->
+                <div class="s_setup_failure card-body d-none">
+                    <h4><%= __('error') %></h4>
+                    <p><%= __('an_error_occurred') %></p>
+                </div>
+                <div class="s_setup_failure card-footer bg-gradient-light d-none">
+                    <a class="btn btn-primary" href="./setup" role="button"><%= __('redo') %></a>
+                </div>
+
+                <!-- s_setup_generate -->
+                <div class="s_setup_generate card-body d-none">
+                    <h4><%= __('processing') %></h4>
+                    <div class="spinner-border text-primary" style="margin-top: 20px;" role="status">
+                        <span class="sr-only"><%= __('processing') %></span>
+                    </div>
+                    <span class="n_setup_complete"></span>
+                </div>
+            </div>
+        </div><!-- /.container -->
+    </div>
+    <!-- /.content -->
+
+    <!-- REQUIRED SCRIPTS -->
+
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- i18n -->
+    <script src="plugins/i18n/jquery.i18n.js"></script>
+    <script src="plugins/i18n/jquery.i18n.messagestore.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="libs/adminlte.min.js"></script>
+    <!-- Optional Scripts -->
+    <script src="plugins/chart.js/Chart.min.js"></script>
+    <script src="libs/moment.js"></script>
+    <script src="libs/common.js"></script>
+
+    <script src="js/setup.js"></script>
+
+</body>
+
+</html>

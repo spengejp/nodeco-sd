@@ -1,0 +1,64 @@
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    - username: nodeco
+    - sda: /mnt/sd
+
+  tasks:
+    - name: get user id
+      shell: id -u
+      register: userid
+      changed_when: False
+
+    - name: clone repos
+      git:
+        repo: "git@github.com:spengejp/nodeco-sd.git"
+        dest: "{{sda}}/nodeco-sd"
+        key_file: "/nodeco/nodeco-os/.ssh/nodeco.pem"
+        accept_hostkey: yes
+        force: yes
+
+    - name: stop nodeco-related services
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{userid.stdout}}"
+      systemd:
+        name: "{{item}}.service"
+        scope: user
+        state: stopped
+      with_items:
+        - "tezos-node"
+        - "tezos-daemons"
+        - "nodeco-client"
+
+    - name: copy sd files
+      synchronize: src=__sd/ dest={{sda}} owner=yes group=yes
+
+    - name: search tezos directories
+      find:
+        paths: "{{sda}}"
+        patterns: "^tezos-[a-zA-Z]+$"
+        use_regex: yes
+        recurse: no
+        file_type: directory
+      register: tezos_dirs
+
+    - name: daemon-reload (user)
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{userid.stdout}}"
+      systemd:
+        scope: user
+        daemon-reload: yes
+
+    - name: start nodeco-related services
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{userid.stdout}}"
+      systemd:
+        name: "{{item}}.service"
+        scope: user
+        enabled: yes
+        state: started
+      with_items:
+        - "tezos-node"
+        - "tezos-daemons"
+        - "nodeco-client"

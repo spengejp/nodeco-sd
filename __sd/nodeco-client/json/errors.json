@@ -1,0 +1,12 @@
+{
+    "ja": {
+        "/": "Error: 不明なエラーです。",
+        "/init/delegate": "不明なデリゲートエラーです。",
+        "/init/delegate/0": "パラメータが不正です。",
+        "/init/delegate/2": "既に同一のデリゲート先を設定済みか、またはデリゲート先が不正です。",
+        "/init/baker/create": "不明なベーカー設定エラーです。",
+        "/init/baker/create/6": "Tezos Baking Appが起動されていません。Tezos Wallet Appを起動していませんか？",
+        "/init/baker/transfer/4": "Tezos Wallet Appが起動されていません。Tezos Baking Appを起動していませんか？",
+        "/transfer/swap/4": "送金に失敗しました。"
+    }
+}
