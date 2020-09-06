@@ -671,188 +671,44 @@ app.get('/vote/submit', function (req, res) {
     });
 });
 
-var s_down = {};
-
-/**
- * Snapshot Data Download
- * @param net: network type[mainnet | othernet]
- * @return file structure or false
- */
-app.get('/snapshot/download', function (req, res) {
+app.get('/update/snapshot', function (req, res) {
     if (common.check_params(req.query, ['net']) === false) {
         res.json(false);
         return;
     }
 
-    if (Object.keys(s_down).length > 0 && (s_down.size.transferred < s_down.size.total || s_down.complete === undefined)) {
-        common.error_log(req.url);
-        res.json(false);
-        return;
-    }
-
-    fs.mkdirsSync(`${NODECO_CLIENT_DIR}/snapshot`);
-    var s_path = `${NODECO_CLIENT_DIR}/snapshot/${req.query.net}.rolling`;
-
-
-    common.downloadFile(`http://${api_server}:${api_server_port}/snapshot?net=${req.query.net}`, s_path,
-        function (progress) {
-            s_down = progress;
-        },
-        function (headers) {
-            if (headers.md5sum !== common.md5file(s_path)) {
-                s_down.complete = false;
-            } else {
-                s_down.complete = true;
-            }
-        });
-
-    res.json(true);
-});
-
-/**
- * Get Snapshot Data Download Progress
- * @return JSON structure
- */
-app.get('/snapshot/download/progress', function (req, res) {
-    res.json(s_down);
-    /*
-    if (s_down.complete !== undefined) {
-        s_down = {};
-    }*/
-});
-
-/**
- * Snapshot Import
- * @param net: network type [mainnet|othernet]
- * @return true or false
- */
-app.get('/snapshot/import', function (req, res) {
-    if (common.check_params(req.query, ['net']) === false) {
-        common.error_log(req.url);
-        res.json(false);
-        return;
-    }
-
-    s_down = {};
-    if (common.is_path(`${NODECO_CLIENT_DIR}/snapshot/${req.query.net}.rolling`) === false) {
-        common.error_log(req.url, 1);
-        res.json(false);
-        return;
-    }
-    if (common.is_path(`${this_dir}/shell/import.sh`) === false) {
-        common.error_log(req.url, 2);
-        res.json(false);
-        return;
-    }
-
-    fs.writeFileSync('/tmp/import.stats', JSON.stringify({
-        "title": "loading",
-        "msg": "Loading..."
-    }));
-
-    common.execute_background(`mkdir -p ${NODECO_CLIENT_DIR}/log; ${this_dir}/shell/import.sh ${req.query.net} > ${NODECO_CLIENT_DIR}/log/import.log`);
-    res.json(true);
-});
-
-app.get('/snapshot/import/progress', function (req, res) {
     try {
-        var str = fs.readFileSync('/tmp/import.stats', 'utf8');
-        res.json(JSON.parse(str));
+        fs.rmdirSync(`../.tezos-${req.query.net}-node/context`, { recursive: true });
+        fs.rmdirSync(`../.tezos-${req.query.net}-node/store`, { recursive: true });
+        fs.unlinkSync(`../.tezos-${req.query.net}-node/peers.json`);
+        fs.unlinkSync(`../.tezos-${req.query.net}-node/version.json`);
+
+        common.execute('systemctl --user restart tezos-node').then(function (ret) {
+            if (ret === false) {
+                common.error_log(req.url);
+            }
+            res.json(ret);
+        });
     } catch (e) {
         common.error_log(req.url);
         res.json(false);
+        return;
     }
 });
 
-var r_down = {};
-
-/**
- * Release Data Download
- * @param net: network type[mainnet | othernet]
- * @return file structure or false
- */
-app.get('/release/download', function (req, res) {
-    if (common.check_params(req.query, ['net']) === false) {
-        common.error_log(req.url);
-        res.json(false);
-        return;
-    }
-
-    if (Object.keys(r_down).length > 0 && (r_down.size.transferred < r_down.size.total || r_down.complete === undefined)) {
-        common.error_log(req.url, 1);
-        res.json(false);
-        return;
-    }
-
-    fs.mkdirsSync(`${NODECO_CLIENT_DIR}/release`);
-    var tmp = `${NODECO_CLIENT_DIR}/release/release.tmp`;
-
-    common.downloadFile(`http://${api_server}:${api_server_port}/release?type=release&net=${req.query.net}`, tmp,
-        function (progress) {
-            r_down = progress;
-        },
-        function (headers) {
-            if (headers.md5sum !== common.md5file(tmp)) {
-                r_down.complete = false;
-            } else {
-                fs.rename(tmp, `${NODECO_CLIENT_DIR}/release/${headers.fname}`, function () {
-                    r_down.complete = true;
-                });
-            }
-        });
-
+app.get('/update/os', function (req, res) {
+    common.execute_background(`mkdir -p ${NODECO_CLIENT_DIR}/log; sudo /nodeco/bin/os-update > ${NODECO_CLIENT_DIR}/log/update_sd.log`);
     res.json(true);
 });
 
-/**
- * Get Releasae Data Download Progress
- * @return JSON structure
- */
-app.get('/release/download/progress', function (req, res) {
-    res.json(r_down);
-    /*
-    if (r_down.complete !== undefined) {
-        r_down = {};
-    }*/
-});
-
-/**
- * System Update
- * @param net: network type[mainnet | othernet]
- * @return true or false
- */
-app.get('/system/update', function (req, res) {
-    if (common.check_params(req.query, ['net']) === false) {
-        common.error_log(req.url);
-        res.json(false);
-        return;
-    }
-
-    r_down = {};
-
-    if (common.is_path(`${this_dir}/shell/update.sh`) === false) {
-        common.error_log(req.url, 1);
-        res.json(false);
-        return;
-    }
-
-    fs.writeFileSync('/tmp/update.stats', JSON.stringify({
-        "title": "loading",
-        "msg": "Loading..."
-    }));
-
-    common.execute_background(`mkdir -p ${NODECO_CLIENT_DIR}/log; ${this_dir}/shell/update.sh ${req.query.net} > ${NODECO_CLIENT_DIR}/log/update.log`);
-    res.json(true);
-});
-
-app.get('/system/update/progress', function (req, res) {
-    try {
-        var str = fs.readFileSync('/tmp/update.stats', 'utf8');
-        res.json(JSON.parse(str));
-    } catch (e) {
-        common.error_log(req.url);
-        res.json(false);
-    }
+app.get('/update/sd', function (req, res) {
+    fs.closeSync(fs.openSync(`${NODECO_CLIENT_DIR}/.update`, 'w'));
+    common.execute('systemctl --user restart nodeco-client').then(function (ret) {
+        if (ret === false) {
+            common.error_log(req.url);
+        }
+        res.json(ret);
+    });
 });
 
 /**
@@ -1685,6 +1541,8 @@ app.get('/coingecko/price', function (req, res) {
  */
 app.get('/setting/get', function (req, res) {
     try {
+        console.log(this_dir);
+        console.log(`${NODECO_CLIENT_DIR}/setting/nodeco.json`);
         res.json(JSON.parse(fs.readFileSync(`${NODECO_CLIENT_DIR}/setting/nodeco.json`, 'utf8')));
     } catch (e) {
         common.error_log(req.url);

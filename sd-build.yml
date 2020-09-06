@@ -6,7 +6,7 @@
     - sda: /mnt/sd
 
   tasks:
-    - name: build tezos networks
+    - name: build tezos
       shell: >
         if [ -d "{{sda}}/tezos" ]; then
           exit 0
