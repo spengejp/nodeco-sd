@@ -13,7 +13,7 @@ opts="--config-file=.tezos-${net}-node/config.json --data-dir=.tezos-${net}-node
 
 # download snapshot
 if [ ! -d .tezos-${net}-node/context ] || [ ! -d .tezos-${net}-node/store ] || [ ! -f tezos/${net}.snapshot ]; then
-	echo -n "downloading snapshot file..."
+	echo "downloading snapshot file..."
 	wget --quiet -O "tezos/${net}.snapshot" http://10.9.0.1:3000/snapshot?net=${net} || exit 1
 	if [ `wc -c tezos/${net}.snapshot | awk '{print $1}'` -le 5 ]; then
 		rm -f tezos/${net}.snapshot
@@ -26,16 +26,16 @@ fi
 
 # create identity file
 if [ ! -f .tezos-${net}-node/identity.json ]; then
-	echo -n "creating identity file..."
+	echo "creating identity file..."
 	./tezos/tezos-node identity generate ${opts} || exit 1
 	echo " done."
 fi
 
 # import exist snapshot
 if [ -f tezos/${net}.snapshot ]; then
-	echo -n "importing snapshot file..."
+	echo "importing snapshot file..."
 	./tezos/tezos-node snapshot import tezos/${net}.snapshot ${opts}
-	if [ $? -eq 1 ]; then
+	if [ $? -ne 0 ]; then
 		rm -f tezos/${net}.snapshot
 		exit 1
 	fi
