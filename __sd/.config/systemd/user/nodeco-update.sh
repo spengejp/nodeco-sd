@@ -9,15 +9,14 @@ function clean() {
 if [ ! -d ${HOME}/nodeco-sd ] || [ ! -f ${HOME}/nodeco-sd/sd-update.yml ]; then
 	rm -rf ${HOME}/nodeco-sd
 	git clone https://github.com/spengejp/nodeco-sd.git ${HOME}/nodeco-sd
-fi
-
-if [ -d ${HOME}/.nodeco-client ] && [ -f ${HOME}/.nodeco-client/.update ]; then
+else
+	cd ${HOME}/nodeco-sd
 	git clean -dxf
 	git reset --hard
 	git pull
-	ansible-playbook ${HOME}/nodeco-sd/sd-update.yml
-	rm -f ${HOME}/.nodeco-client/.update
 fi
+
+ansible-playbook ${HOME}/nodeco-sd/sd-update.yml
 
 trap clean ERR
 

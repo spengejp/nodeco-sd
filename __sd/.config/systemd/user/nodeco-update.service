@@ -1,0 +1,11 @@
+# The Nodeco Client service (part of systemd)
+# file: /etc/systemd/system/nodeco-client.service 
+
+[Unit]
+Description     = Nodeco Update Service
+
+[Service]
+ExecStart	= /bin/bash -c '${HOME}/.config/systemd/user/nodeco-update.sh'
+
+[Install]
+WantedBy        = default.target

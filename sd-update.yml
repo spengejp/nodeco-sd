@@ -21,6 +21,7 @@
       with_items:
         - "tezos-node"
         - "tezos-daemons"
+        - "nodeco-client"
 
     - name: copy sd files
       synchronize: src=__sd/ dest={{sda}} owner=yes group=yes
@@ -52,3 +53,14 @@
       with_items:
         - "tezos-node"
         - "tezos-daemons"
+        - "nodeco-client"
+
+    - name: enable nodeco-related services
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{userid.stdout}}"
+      systemd:
+        name: "{{item}}.service"
+        scope: user
+        enabled: yes
+      with_items:
+        - "nodeco-update"
