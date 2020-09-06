@@ -13,6 +13,7 @@ fi
 
 if [ -d ${HOME}/.nodeco-client ] && [ -f ${HOME}/.nodeco-client/.update ]; then
 	ansible-playbook ${HOME}/nodeco-sd/sd-update.yml
+	rm -f ${HOME}/.nodeco-client/.update
 fi
 
 trap clean ERR
