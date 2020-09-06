@@ -11,13 +11,6 @@
       register: userid
       changed_when: False
 
-    - name: clone repos
-      git:
-        repo: "https://github.com/spengejp/nodeco-sd.git"
-        dest: "{{sda}}/nodeco-sd"
-        accept_hostkey: yes
-        force: yes
-
     - name: stop nodeco-related services
       environment:
         XDG_RUNTIME_DIR: "/run/user/{{userid.stdout}}"
