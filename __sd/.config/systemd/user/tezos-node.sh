@@ -20,7 +20,7 @@ if [ ! -d .tezos-${net}-node/context ] || [ ! -d .tezos-${net}-node/store ] || [
 		exit 1
 	fi
 
-	rm -f .tezos-${net}-node/context .tezos-${net}-node/store .tezos-${net}-node/peers.json .tezos-${net}-node/version.json
+	rm -rf .tezos-${net}-node/context .tezos-${net}-node/store .tezos-${net}-node/peers.json .tezos-${net}-node/version.json
 	echo " done."
 fi
 
