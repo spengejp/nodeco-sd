@@ -13,9 +13,8 @@
 
     - name: clone repos
       git:
-        repo: "git@github.com:spengejp/nodeco-sd.git"
+        repo: "https://github.com/spengejp/nodeco-sd.git"
         dest: "{{sda}}/nodeco-sd"
-        key_file: "/nodeco/nodeco-os/.ssh/nodeco.pem"
         accept_hostkey: yes
         force: yes
 
