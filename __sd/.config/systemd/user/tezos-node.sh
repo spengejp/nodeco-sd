@@ -34,7 +34,11 @@ fi
 # import exist snapshot
 if [ -f tezos/${net}.snapshot ]; then
 	echo -n "importing snapshot file..."
-	./tezos/tezos-node snapshot import tezos/${net}.snapshot ${opts} || rm -f tezos/${net}.snapshot; exit 1
+	./tezos/tezos-node snapshot import tezos/${net}.snapshot ${opts}
+	if [ $? -eq 1 ]; then
+		rm -f tezos/${net}.snapshot
+		exit 1
+	fi
 	rm -f tezos/${net}.snapshot
 	echo " done."
 fi
