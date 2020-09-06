@@ -28,7 +28,6 @@
       with_items:
         - "tezos-node"
         - "tezos-daemons"
-        - "nodeco-client"
 
     - name: copy sd files
       synchronize: src=__sd/ dest={{sda}} owner=yes group=yes
@@ -60,4 +59,3 @@
       with_items:
         - "tezos-node"
         - "tezos-daemons"
-        - "nodeco-client"

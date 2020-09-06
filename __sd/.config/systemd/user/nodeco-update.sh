@@ -12,6 +12,9 @@ if [ ! -d ${HOME}/nodeco-sd ] || [ ! -f ${HOME}/nodeco-sd/sd-update.yml ]; then
 fi
 
 if [ -d ${HOME}/.nodeco-client ] && [ -f ${HOME}/.nodeco-client/.update ]; then
+	git clean -dxf
+	git reset --hard
+	git pull
 	ansible-playbook ${HOME}/nodeco-sd/sd-update.yml
 	rm -f ${HOME}/.nodeco-client/.update
 fi

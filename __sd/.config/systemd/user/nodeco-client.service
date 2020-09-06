@@ -6,7 +6,7 @@ Description     = Nodeco Client Service
 Wants		= network-online.target openvpn.service
 
 [Service]
-ExecStart	= /bin/bash -c '${HOME}/.config/systemd/user/nodeco-update.sh; ${HOME}/nodeco-client; ./run.sh'
+ExecStart	= /bin/bash -c '${HOME}/.config/systemd/user/nodeco-update.sh; cd ${HOME}/nodeco-client; ./run.sh'
 #TimeoutStartSec = "10min"
 Restart         = on-failure
 
