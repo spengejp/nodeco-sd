@@ -31,99 +31,6 @@ $(function () {
         }
     });
 
-    var view_download = function (path, progress_path, next) {
-        $('.console').text('');
-        var progress = function () {
-            $.getJSON(progress_path).done(function (res) {
-                if (Object.keys(res).length) {
-                    if (res.complete === true) {
-                        $(`.n_${next}`).trigger('click');
-                        toggle_view(next);
-                        return;
-                    } else if (res.complete === false) {
-                        clearTimeout(progress);
-                        toggle_view('setup_failure');
-                        return;
-                    }
-                    var per = floor(res.percent * 100, 2);
-                    $('.console').text(`${$.i18n('download_progress')}： ${res.size.transferred} / ${res.size.total} (${per} %)`);
-                }
-                setTimeout(progress, 500);
-            })
-                .fail(function (jqxhr, textStatus, errorThrown) {
-                    setTimeout(progress, 500);
-                });
-        };
-        progress();
-
-        $.getJSON(path).done(function (res) {
-            if (!res) {
-                clearTimeout(progress);
-                toggle_view('setup_failure');
-            }
-        })
-            .fail(function (jqxhr, textStatus, errorThrown) {
-                clearTimeout(progress);
-                toggle_view('setup_failure');
-            });
-    };
-
-    var view_install = function (path, progress_path, next) {
-        $('.console').text('');
-        $.getJSON(path).done(function (res) {
-            if (!res) {
-                toggle_view('setup_failure');
-                return;
-            }
-            var progress = function () {
-                $.getJSON(progress_path).done(function (res) {
-                    if (Object.keys(res).length) {
-                        $('.console').text('[' + res.title + '] ' + res.msg);
-
-                        switch (res.title) {
-                            case "complete":
-                                clearTimeout(progress);
-                                $(`.n_${next}`).trigger('click');
-                                toggle_view(next);
-                                return;
-
-                            case "restart":
-                                clearTimeout(progress);
-                                $.getJSON('./api/os/restart').done(function (res) { });
-                                var restarting = false;
-                                var restart_progress = function () {
-                                    $.getJSON('./api/server/alive')
-                                        .done(function (res) {
-                                            if (restarting && res.success) {
-                                                setTimeout(progress, 500);
-                                            } else {
-                                                setTimeout(restart_progress, 5000);
-                                            }
-                                        })
-                                        .fail(function (jqxhr, textStatus, errorThrown) {
-                                            restarting = true;
-                                            setTimeout(restart_progress, 5000);
-                                        });
-                                }
-                                restart_progress();
-                                return;
-
-                            case "error":
-                                clearTimeout(progress);
-                                toggle_view('setup_failure');
-                                return;
-                        }
-                    }
-                    setTimeout(progress, 500);
-                })
-                    .fail(function (jqxhr, textStatus, errorThrown) {
-                        setTimeout(progress, 500);
-                    });
-            };
-            progress();
-        });
-    };
-
     // ようこそ画面
     $('.n_setup_update').click(function () {
         var encoded = encodeURIComponent(JSON.stringify({
@@ -134,49 +41,16 @@ $(function () {
         $('.language_val').text($('#language').val());
     });
 
-    // システムアップデート ダウンロード画面
-    $('.n_setup_update1').click(function () {
-        view_download(
-            './api/release/download?net=' + $('#network').val(),
-            './api/release/download/progress',
-            'setup_update2'
-        );
-    });
-
-    // システムアップデート 更新画面
-    $('.n_setup_update2').click(function () {
-        view_install(
-            './api/system/update?net=' + $('#network').val(),
-            './api/system/update/progress',
-            'setup_update3'
-        );
-    });
-
-    // スナップショット ダウンロード画面
-    $('.n_setup_update3').click(function () {
-        view_download(
-            './api/snapshot/download?net=' + $('#network').val(),
-            './api/snapshot/download/progress',
-            'setup_update4'
-        );
-    });
-
-    // スナップショット インポート画面
-    $('.n_setup_update4').click(function () {
-        view_install(
-            './api/snapshot/import?net=' + $('#network').val(),
-            './api/snapshot/import/progress',
-            'setup_ledger'
-        );
-    });
-
     // Ledger 設定
     $('.n_setup_ledger').click(function () {
         var encoded = encodeURIComponent(JSON.stringify({
             net: $('#network').val()
         }));
 
-        $.getJSON(`./set?params=${encoded}`).done(function (res) { });
+        $.getJSON(`./set?params=${encoded}`).done(function (res) {
+            $.getJSON(`./api/node/restart`).done(function (res) { });
+            $.getJSON(`./api/baker/restart`).done(function (res) { });
+        });
         $('.network_val').text($('#network').val());
     });
 

@@ -697,18 +697,21 @@ app.get('/update/snapshot', function (req, res) {
 });
 
 app.get('/update/os', function (req, res) {
-    common.execute_background(`mkdir -p ${NODECO_CLIENT_DIR}/log; sudo /nodeco/bin/os-update > ${NODECO_CLIENT_DIR}/log/update_sd.log`);
+    common.execute_background(`mkdir -p ${NODECO_CLIENT_DIR}/log; sudo /nodeco/bin/os-update > ${NODECO_CLIENT_DIR}/log/update_os.log`);
     res.json(true);
 });
 
 app.get('/update/sd', function (req, res) {
-    fs.closeSync(fs.openSync(`${NODECO_CLIENT_DIR}/.update`, 'w'));
-    common.execute('systemctl --user restart nodeco-client').then(function (ret) {
+    common.execute('systemctl --user restart nodeco-update').then(function (ret) {
         if (ret === false) {
             common.error_log(req.url);
         }
         res.json(ret);
     });
+});
+
+app.get('/update/sd/progress', function (req, res) {
+    res.json(common.getJournalctl("nodeco-update"));
 });
 
 /**

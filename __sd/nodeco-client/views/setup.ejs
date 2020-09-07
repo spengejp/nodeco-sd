@@ -64,10 +64,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <!-- s_setup_update -->
                 <div class="s_setup_update card-body d-none">
-                    <h4><%= __('nodeco_update') %></h4>
-                    <p><%= __('update_nodeco_this_will_take_a_long_time') %></p>
-                    <p><strong style="color: red;"><%= __('updating_do_not_power_off_nodeco') %></strong></p>
-
+                    <h4><%= __('network') %></h4>
                     <p><%= __('select_the_network_to_use') %></p>
                     <div class="form-group">
                         <select id="network" class="custom-select">
@@ -78,63 +75,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
                 <div class="s_setup_update card-footer bg-gradient-light d-none">
                     <button type="submit" class="n_setup_welcome btn btn-info"><%= __('back') %></button>
-                    <button type="submit" class="n_setup_update1 btn btn-primary"><%= __('next') %></button>
-                </div>
-
-                <!-- s_setup_update1 -->
-                <div class="s_setup_update1 card-body d-none">
-                    <h4>[1/4]<%= __('system_data_downloading') %></h4>
-                    <p><%= __('downloading_system_data_this_will_take_a_long_time') %></p>
-                    <p><strong
-                            style="color: red;"><%= __('please_wait_for_a_while_without_power_off_nodeco') %></strong>
-                    </p>
-                    <p class="console"></p>
-                    <div class="spinner-border text-primary" style="margin: 20px;" role="status">
-                        <span class="sr-only"><%= __('downloading') %></span>
-                    </div>
-                    <span class="n_setup_update2"></span>
-                </div>
-
-                <!-- s_setup_update2 -->
-                <div class="s_setup_update2 card-body d-none">
-                    <h4>[2/4]<%= __('system_updating') %></h4>
-                    <p><%= __('updating_nodeco_this_will_take_a_long_time') %></p>
-                    <p><strong
-                            style="color: red;"><%= __('please_wait_for_a_while_without_power_off_nodeco') %></strong>
-                    </p>
-                    <p class="console"></p>
-                    <div class="spinner-border text-primary" style="margin: 20px;" role="status">
-                        <span class="sr-only"><%= __('updating') %></span>
-                    </div>
-                    <span class="n_setup_update3"></span>
-                </div>
-
-                <!-- s_setup_update3 -->
-                <div class="s_setup_update3 card-body d-none">
-                    <h4>[3/4]<%= __('node_data_downloading') %></h4>
-                    <p><%= __('downloading_node_data_this_will_take_a_long_time') %></p>
-                    <p><strong
-                            style="color: red;"><%= __('please_wait_for_a_while_without_power_off_nodeco') %></strong>
-                    </p>
-                    <p class="console"></p>
-                    <div class="spinner-border text-primary" style="margin: 20px;" role="status">
-                        <span class="sr-only"><%= __('downloading') %></span>
-                    </div>
-                    <span class="n_setup_update4"></span>
-                </div>
-
-                <!-- s_setup_update4 -->
-                <div class="s_setup_update4 card-body d-none">
-                    <h4>[4/4]<%= __('node_data_importing') %></h4>
-                    <p><%= __('importing_node_data_this_will_take_a_long_time') %></p>
-                    <p><strong
-                            style="color: red;"><%= __('please_wait_for_a_while_without_power_off_nodeco') %></strong>
-                    </p>
-                    <p class="console"></p>
-                    <div class="spinner-border text-primary" style="margin: 20px;" role="status">
-                        <span class="sr-only"><%= __('importing') %></span>
-                    </div>
-                    <span class="n_setup_ledger"></span>
+                    <button type="submit" class="n_setup_ledger btn btn-primary"><%= __('next') %></button>
                 </div>
 
                 <!-- s_setup_ledger -->
