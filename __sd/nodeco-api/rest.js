@@ -380,6 +380,10 @@ app.get('/rpc/balance', function (req, res) {
     }
 
     var pkh = common.getTezosPkh(req.query.dest);
+    if (pkh === false) {
+        res.json(false);
+        return;
+    }
     common.tezos_rpc(`/chains/main/blocks/head/context/contracts/${pkh}/balance`).then(function (ret) {
         if (ret === false) {
             common.error_log(req.url, 1);
@@ -424,6 +428,10 @@ app.get('/rpc/delegates', function (req, res) {
     }
 
     var pkh = common.getTezosPkh(req.query.dest);
+    if (pkh === false) {
+        res.json(false);
+        return;
+    }
     common.tezos_rpc(`/chains/main/blocks/head/context/delegates/${pkh}`).then(function (ret) {
         if (ret === false) {
             common.error_log(req.url, 1);
@@ -696,11 +704,21 @@ app.get('/update/snapshot', function (req, res) {
     }
 });
 
+/**
+ * OS Update
+ * Automatically update OS files.
+ * @returns true or false
+ */
 app.get('/update/os', function (req, res) {
     common.execute_background(`mkdir -p ${NODECO_CLIENT_DIR}/log; sudo /nodeco/bin/os-update > ${NODECO_CLIENT_DIR}/log/update_os.log`);
     res.json(true);
 });
 
+/**
+ * SD Update
+ * Automatically update SD files.
+ * @returns true or false
+ */
 app.get('/update/sd', function (req, res) {
     common.execute('systemctl --user restart nodeco-update').then(function (ret) {
         if (ret === false) {
@@ -710,6 +728,11 @@ app.get('/update/sd', function (req, res) {
     });
 });
 
+/**
+ * SD Update Progress
+ * Show SD update progress
+ * @returns true or false
+ */
 app.get('/update/sd/progress', function (req, res) {
     res.json(common.getJournalctl("nodeco-update"));
 });

@@ -51,6 +51,11 @@ async function update() {
             common.floor(1 - Number(store.get('main_frozen')) / Number(store.get('main_balance')), 3) * 100 : "0");
     }
 
+    store.set('balance', store.get('main_balance'));
+    store.set('frozen', store.get('main_frozen'));
+    store.set('staking', store.get('main_staking'));
+    store.set('useable_per', store.get('main_useable_per'));
+
     var baker_delegates = await common.api('/rpc/delegates?dest=baker');
     if (baker_delegates.staking_balance !== undefined &&
         baker_delegates.delegated_balance !== undefined &&
@@ -62,7 +67,7 @@ async function update() {
             common.floor(1 - Number(store.get('baker_frozen')) / Number(store.get('baker_balance')), 3) * 100 : "0");
     }
 
-    if (store.get('main_balance') && store.get('baker_balance')) {
+    if (store.get('baker_balance')) {
         store.set('balance', (BigInt(store.get('main_balance')) + BigInt(store.get('baker_balance'))).toString());
         store.set('frozen', (BigInt(store.get('main_frozen')) + BigInt(store.get('baker_frozen'))).toString());
         store.set('staking', (BigInt(store.get('main_staking')) + BigInt(store.get('baker_staking'))).toString());

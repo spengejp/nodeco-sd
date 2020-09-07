@@ -132,6 +132,8 @@ exports.getTezosPkh = (source) => {
         });
         if (target !== undefined) {
             pkh = target.value;
+        } else {
+            pkh = false;
         }
     }
 
