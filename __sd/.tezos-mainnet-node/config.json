@@ -4,5 +4,5 @@
       "listen-addr": "127.0.0.1:9732", "private-mode": true },
   "network": "mainnet",
   "shell":
-    { "chain_validator": { "bootstrap_threshold": 1 },
+    { "chain_validator": { "bootstrap_threshold": 2 },
       "history_mode": "rolling" } }
