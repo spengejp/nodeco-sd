@@ -17,7 +17,7 @@ fi
 bakename='null'
 while true;
 do
-        if [ ! -f ${HOME}/tezos-${net}/tezos-client ]; then
+        if [ ! -f ${HOME}/tezos/tezos-client ]; then
                 sleep 10
                 continue
         fi
@@ -27,6 +27,11 @@ do
                 continue
         fi
 
+	if [ ! -f ${HOME}/.tezos-${net}-node/config.json ]; then
+		sleep 10
+		continue
+	fi
+
         bakename=`cat ${HOME}/.nodeco-client/setting/nodeco.json | jq -r '.bakeaddress.name'`
         if [ ${bakename} == "null" ]; then
                 sleep 10
@@ -35,7 +40,10 @@ do
         break
 done
 
-for line in `${HOME}/tezos-${net}/tezos-client rpc get /chains/main/blocks/head/protocols`
+addr=`jq -r '.rpc."listen-addrs"[0]' ${HOME}/.tezos-${net}-node/config.json`
+addr_list=(${addr//:/ })
+
+for line in `${HOME}/tezos/tezos-client -A ${addr_list[0]} -P ${addr_list[1]} rpc get /chains/main/blocks/head/protocols`
 do
         tmp=`echo ${line} | sed -e 's/^[^:]\+: \"\(.\{8\}\).\+\".*$/\1/g'`
 
@@ -45,10 +53,10 @@ do
 
         suffix+=("${tmp}")
 
-        for line2 in `ls ${HOME}/tezos-${net} | grep ${suffix[$i]}`
+        for line2 in `ls ${HOME}/tezos | grep ${suffix[$i]}`
         do
                 proto=`echo ${line2} | sed -e 's/.*-\([0-9]\{3\}-[a-zA-Z0-9]\{8\}\)$/\1/g'`
-                bin="${HOME}/tezos-${net}/${line2}"
+                bin="${HOME}/tezos/${line2}"
 
                 echo "Launched ${bin} Daemon."
 
