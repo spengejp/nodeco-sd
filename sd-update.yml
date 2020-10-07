@@ -11,6 +11,10 @@
       register: userid
       changed_when: False
 
+    - name: check config dir
+      stat: path="{{sda}}/.config"
+      register: d
+
     - name: stop nodeco-related services
       environment:
         XDG_RUNTIME_DIR: "/run/user/{{userid.stdout}}"
@@ -22,6 +26,7 @@
         - "tezos-node"
         - "tezos-daemons"
         - "nodeco-client"
+      when: d.stat.exists
 
     - name: copy sd files
       synchronize: src=__sd/ dest={{sda}} owner=yes group=yes
